@@ -213,10 +213,27 @@ void produceBinaries(MyImage *m){
 	medianBlur(m->bw, m->bw,7);
 }
 
+void produceGrid(MyImage *m, HandGesture *hg){
+  //m->src.copyTo(m->grid);
+  Mat image(30,740, CV_8UC3, Scalar(0,0,255));
+  image.copyTo(m->grid);
+  Point lb(HandGesture::LEFT_LIMIT, 30);
+  Point lu(HandGesture::LEFT_LIMIT,0);
+  Point ru(HandGesture::RIGHT_LIMIT,0);
+  Point rb(HandGesture::RIGHT_LIMIT, 30);
+  line(m->grid, lu, lb, Scalar(0,255,0));
+  line(m->grid, ru, rb, Scalar(0,255,0));
+  Point palm(hg->bRectCenter.x, 15);
+  circle( m->grid,palm,   5, Scalar(0,255,0), 4 );  
+}
+
 void initWindows(MyImage m){
     namedWindow("trackbars",CV_WINDOW_KEEPRATIO);
     namedWindow("img1",CV_WINDOW_FULLSCREEN);
+    namedWindow("grid",CV_WINDOW_FULLSCREEN);
 }
+
+
 
 void showWindows(MyImage m){
 	pyrDown(m.bw,m.bw);
@@ -228,7 +245,8 @@ void showWindows(MyImage m){
 		channels.push_back(m.bw);
 	merge(channels,result);
 	result.copyTo( m.src(roi));
-	imshow("img1",m.src);	
+	imshow("img1",m.src);
+        imshow("grid",m.grid);
 }
 
 int findBiggestContour(vector<vector<Point> > contours){
@@ -363,7 +381,8 @@ int main(){
 		blur(m.srcLR,m.srcLR,Size(3,3));
 		cvtColor(m.srcLR,m.srcLR,ORIGCOL2COL);
 		produceBinaries(&m);
-		cvtColor(m.srcLR,m.srcLR,COL2ORIGCOL);
+		produceGrid(&m, &hg);
+                cvtColor(m.srcLR,m.srcLR,COL2ORIGCOL);
 		makeContours(&m, &hg);
 		hg.getFingerNumber(&m);
 		showWindows(m);
