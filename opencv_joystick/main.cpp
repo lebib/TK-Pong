@@ -255,12 +255,12 @@ void myDrawContours(MyImage *m,HandGesture *hg){
 		
 	
 	vector<Mat> channels;
-		Mat result;
-		for(int i=0;i<3;i++)
-			channels.push_back(m->bw);
-		merge(channels,result);
+        Mat result;
+        for(int i=0;i<3;i++)
+          channels.push_back(m->bw);
+        merge(channels,result);
 	//	drawContours(result,hg->contours,hg->cIdx,cv::Scalar(0,200,0),6, 8, vector<Vec4i>(), 0, Point());
-		drawContours(result,hg->hullP,hg->cIdx,cv::Scalar(0,0,250),10, 8, vector<Vec4i>(), 0, Point());
+        drawContours(result,hg->hullP,hg->cIdx,cv::Scalar(0,0,250),10, 8, vector<Vec4i>(), 0, Point());
 
 		
 	while( d!=hg->defects[hg->cIdx].end() ) {
