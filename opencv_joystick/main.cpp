@@ -360,7 +360,9 @@ void idleCheck(MyImage m){
 int main(){
 	MyImage m(0);		
 	HandGesture hg;
-        Communicate comm;
+        zmq::context_t context (1);
+        zmq::socket_t socket (context, ZMQ_PUSH);
+        Communicate comm(&socket);
 	init(&m);		
 	m.cap >>m.src;
         calibrate(m);
@@ -370,8 +372,6 @@ int main(){
         double duration;
 
         start = std::clock();
-
-
         
 	for(;;){
 		hg.frameNumber++;
@@ -402,6 +402,5 @@ int main(){
 	destroyAllWindows();
 	out.release();
 	m.cap.release();
-        comm.end();
         return 0;
 }

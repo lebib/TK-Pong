@@ -1,57 +1,27 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h> 
+#include <zmq.hpp>
+#include <string>
 #include <iostream>
 #include "communicate.hpp"
 
 using namespace std;
 
-Communicate::Communicate(){
-  init();
-}
-  
-void Communicate::init(){
-  sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  if (sockfd < 0) 
-    error("ERROR opening socket");
-  portno = 4545;
-  server = gethostbyname("localhost");
-  serv_addr.sin_family = AF_INET;
-  bcopy((char *)server->h_addr, 
-        (char *)&serv_addr.sin_addr.s_addr,
-        server->h_length);
-  serv_addr.sin_port = htons(portno);
-  if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
-    error("ERROR connecting");
+Communicate::Communicate(zmq::socket_t *skt)
+  : socket(skt)
+{
+  socket->bind("tcp://127.0.0.1:4548");
 }
 
-void Communicate::error(const char *msg)
+Communicate::~Communicate()
 {
-  perror(msg);
-  exit(0);
+  // delete socket;
 }
 
 void Communicate::send(string msg){
-  char buffer[256];
-  bzero(buffer,256);
-  strcpy(buffer, msg.c_str());
-  n = write(sockfd,buffer,strlen(buffer));
-  if (n < 0) 
-    error("ERROR writing to socket");
-  bzero(buffer,256);
-  // n = read(sockfd,buffer,255);
-  // if (n < 0) 
-  //   error("ERROR reading from socket");
-  // printf("%s\n",buffer);
-    
-}
-
-void Communicate::end(){
-  close(sockfd);
+  cout<<msg<<endl;
+  char output[1];
+  strcpy(output, msg.c_str());
+  zmq::message_t reply (1);
+  memcpy ((void *) reply.data (), output , 1);
+  socket->send (reply);
 }
 
