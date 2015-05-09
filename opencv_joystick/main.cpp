@@ -318,24 +318,40 @@ void makeContours(MyImage *m, HandGesture* hg){
 }
 
 
+
+void calibrate(MyImage m){
+  namedWindow("img1",CV_WINDOW_KEEPRATIO);
+  //out.open("out.avi", CV_FOURCC('M', 'J', 'P', 'G'), 15, m.src.size(), true);
+  waitForPalmCover(&m);
+  average(&m);
+  destroyWindow("img1");
+  initWindows(m);
+}
+
+void idleCheck(MyImage m){
+  idle++;
+  if (idle > 60){
+    idle = 0;
+    destroyAllWindows();
+    calibrate(m);
+  }
+
+}
+  
 int main(){
 	MyImage m(0);		
 	HandGesture hg;
         Communicate comm;
 	init(&m);		
 	m.cap >>m.src;
-    namedWindow("img1",CV_WINDOW_KEEPRATIO);
-    //out.open("out.avi", CV_FOURCC('M', 'J', 'P', 'G'), 15, m.src.size(), true);
-	waitForPalmCover(&m);
-	average(&m);
-	destroyWindow("img1");
-	initWindows(m);
-	initTrackbars();
+        calibrate(m);
+        initTrackbars();
 
         std::clock_t start;
         double duration;
 
         start = std::clock();
+
 
         
 	for(;;){
@@ -351,8 +367,14 @@ int main(){
 		hg.getFingerNumber(&m);
 		showWindows(m);
                 duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-                comm.send(intToString(hg.getDirection()));
-                if(duration > 120) break;
+                int direction = hg.getDirection();
+                if (direction == 0){
+                  idleCheck(m);
+                }else{
+                  idle =0;
+                  comm.send(intToString(direction));
+                }
+                if(duration > 20) break;
                 //out << m.src;
 		//imwrite("./images/final_result.jpg",m.src);
                 if(cv::waitKey(30) == char('q')) break;
