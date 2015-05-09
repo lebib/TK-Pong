@@ -311,7 +311,9 @@ void makeContours(MyImage *m, HandGesture* hg){
 			hg->drawFingerTips(m);
 			myDrawContours(m,hg);
                         //cout<<m->cap.get(CV_CAP_PROP_FRAME_WIDTH)<<endl;
-		}
+		}else{
+                  hg->bRectCenter = Point(0,0);
+                }
 	}
 }
 
