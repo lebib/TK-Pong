@@ -11,6 +11,9 @@
 using namespace cv;
 using namespace std;
 
+const int HandGesture::LEFT_LIMIT = 250;
+const int HandGesture::RIGHT_LIMIT = 420;
+
 HandGesture::HandGesture(){
 	frameNumber=0;
 	nrNoFinger=0;

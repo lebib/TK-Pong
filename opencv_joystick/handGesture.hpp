@@ -38,6 +38,8 @@ public:
   void getFingerTips(MyImage *m);
   void drawFingerTips(MyImage *m);
   int getDirection();
+  static const int LEFT_LIMIT;
+  static const int RIGHT_LIMIT;
 private:
   string bool2string(bool tf);
   int fontFace;
