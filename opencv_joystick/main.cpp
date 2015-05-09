@@ -27,6 +27,7 @@ int c_upper[NSAMPLES][3];
 int avgBGR[3];
 int nrOfDefects;
 int iSinceKFInit;
+int idle = 0;
 struct dim{int w; int h;}boundingDim;
 VideoWriter out;
 Mat edges;
