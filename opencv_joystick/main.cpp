@@ -198,7 +198,7 @@ void normalizeColors(MyImage * myImage){
 void produceBinaries(MyImage *m){	
 	Scalar lowerBound;
 	Scalar upperBound;
-	Mat foo;
+	//Mat foo;
 	for(int i=0;i<NSAMPLES;i++){
 		normalizeColors(m);
 		lowerBound=Scalar( avgColor[i][0] - c_lower[i][0] , avgColor[i][1] - c_lower[i][1], avgColor[i][2] - c_lower[i][2] );
