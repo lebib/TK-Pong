@@ -74,9 +74,9 @@ void HandGesture::printGestureInfo(Mat src){
 int HandGesture::getDirection(){
   int frameWidthCenter = m.cap.get(CV_CAP_PROP_FRAME_WIDTH);
   //return intToString(frameWidthCenter);
-  if(bRectCenter.x < 227 && bRectCenter.x > 0){
+  if(bRectCenter.x < HandGesture::LEFT_LIMIT && bRectCenter.x > 0){
     return 1;
-  }else if(bRectCenter.x < 453){
+  }else if(bRectCenter.x < HandGesture::RIGHT_LIMIT){
     return 0;
   }else{
     return 2;
