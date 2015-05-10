@@ -9,9 +9,14 @@ type Rect struct {
     W, H float64
 }
 
+type Celerity struct {
+    Ratio Point
+}
+
 type Vector struct {
     Coords Point
-
+    Celerity float64
+    Direction float64
 }
 
 func SayHello() string{
@@ -34,4 +39,12 @@ func CollisionPR(p Point, r Rect) bool{
         }
     }
     return true;
+}
+
+func ApplyCelerity(vector Vector) Vector{
+    return vector
+}
+
+func LineCoefficient(p1 Point, p2 Point) float64{
+    return (p1.Y - p2.Y) / (p1.X - p2.X) 
 }

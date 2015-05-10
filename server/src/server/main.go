@@ -15,4 +15,5 @@ func main() {
 
     fmt.Println(Geometry.SayHello())
     fmt.Println(Geometry.CollisionRR(r1, r2))
+    fmt.Println(Geometry.LineCoefficient(p1, p2))
 }
