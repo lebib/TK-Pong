@@ -5,8 +5,13 @@ type Point struct {
 }
 
 type Rect struct {
-    C Point
+    Coords Point
     W, H float64
+}
+
+type Vector struct {
+    Coords Point
+
 }
 
 func SayHello() string{
@@ -14,8 +19,8 @@ func SayHello() string{
 }
 
 func CollisionRR(r1 Rect, r2 Rect) bool{
-    if r1.C.X + r1.W < r2.C.X  || r1.C.X > r2.C.X + r2.W {
-        if r1.C.Y + r1.H < r2.C.Y || r1.C.Y > r2.C.Y + r2.H {
+    if r1.Coords.X + r1.W < r2.Coords.X  || r1.Coords.X > r2.Coords.X + r2.W {
+        if r1.Coords.Y + r1.H < r2.Coords.Y || r1.Coords.Y > r2.Coords.Y + r2.H {
             return false;
         }
     }
@@ -23,9 +28,8 @@ func CollisionRR(r1 Rect, r2 Rect) bool{
 }
 
 func CollisionPR(p Point, r Rect) bool{
-    if(p.X < r.C.X && p.X || r.C.X + r.W) {
-        if(p.Y < r.C.Y || p.Y > r.C.Y + h)
-        {
+    if p.X < r.Coords.X || p.X > r.Coords.X + r.W {
+        if p.Y < r.Coords.Y || p.Y > r.Coords.Y + r.H {
             return false;
         }
     }
