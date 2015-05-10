@@ -34,7 +34,11 @@ func (r *Rect) CollisionPR(p Point) bool {
 
 func Round(val float64, precision int) float64 {
     buffer := math.Pow(10, float64(precision))
-    return math.Floor(val * buffer + 0.5) / buffer
+    return TT(val * buffer) / buffer
+}
+
+func TT(val float64) float64  {
+    return math.Floor(val + 0.5)
 }
 
 func GetPointFromAngle(angle float64, precision int) Point {
@@ -48,7 +52,6 @@ func LineCoefficient(p1, p2 Point) float64 {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
 
 // func GetPointFromAngle(angle float64) Point {
 //     point := Point{X: math.Cos(angle), Y: math.Sin(angle)}

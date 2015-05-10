@@ -1,5 +1,7 @@
 package main
 
+// TODO: Implement the bounce thing and the physic will be done. Kind of.
+
 import (
     "fmt"
     "math"
@@ -12,13 +14,19 @@ func main() {
     fmt.Println(r1.CollisionRR(r2))
     fmt.Println(r1.X, r1.Y)
     fmt.Println(Geometry.Round(10.1337, 0))
-    fmt.Println(Geometry.GetPointFromAngle(math.Pi / 2, 3).X)
+    fmt.Println(Geometry.GetPointFromAngle(math.Pi / 6, 3).X)
+    p1 := Geometry.GetPointFromAngle(math.Pi/4, 3)
+    fmt.Println(p1.X, p1.Y)
     fmt.Println(
         Geometry.LineCoefficient(
             Geometry.Point{10, 10},
-            Geometry.Point{11, 11},
+            p1,
         ),
     )
+
+    dir := Geometry.Direction{math.Pi / 4, 0.5}
+    p2 := Geometry.ApplyTranslation(Geometry.Point{3, 3}, dir)
+    fmt.Println(p2.X, p2.Y)
 }
 
 // func main() {
